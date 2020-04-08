@@ -1,0 +1,221 @@
+;; ======================================================
+;; Modélisation en logique propositionelle
+;; du problème "The incredible Eight, by Lauri Tervonen"
+;; ======================================================
+
+;; Il y a 8 questions dans le QCM
+$questions = [1..8]
+;; Il y a 4 réponses possibles pour chaque question
+$reponses = [a, b, c, d]
+
+;; ======================================================
+;; Règles du QCM
+;; ======================================================
+
+;; Règle [1]
+;;-------------------------------------------------------
+;; Chaque question a exactement une réponse
+bigand $q in $questions:
+	exact(1, R($reponses, $q))
+end
+
+
+;; ======================================================
+;; QUESTIONS
+;; ======================================================
+
+;; question [1] :
+;; Combien de questions de ce quiz ont pour réponse C ?
+;;-------------------------------------------------------
+
+;; [A]. la réponse C n'apparait q'une fois
+R(a, 1) <=> exact(1, R(d, $questions))
+;; [B]. la réponse C apparait deux fois
+R(b, 1) <=> exact(2, R(d, $questions))
+;; [C]. la réponse C apparait trois fois
+R(c, 1) <=> exact(3, R(d, $questions))
+;; [D]. la réponse C apparait quatre fois
+R(d, 1) <=> exact(4, R(d, $questions))
+
+;; question [2] :
+;; Quelle lettre est la réponse la moins courante ?
+;;-------------------------------------------------------
+
+;; [A]. la réponse la moins courante est D
+bigor $n in [0..8]:
+	exact($n, R(d, $questions)) and bigand $c in $reponses:
+		atleast($n, R($c, $questions))
+	end
+end <=> R(a, 2)
+
+;; [B]. la réponse la moins courante est B
+bigor $n in [0..8]:
+	exact($n, R(b, $questions)) and bigand $c in $reponses:
+		atleast($n, R($c, $questions))
+	end
+end <=> R(b, 2)
+
+;; [C]. la réponse la moins courante est C
+bigor $n in [0..8]:
+	exact($n, R(c, $questions)) and bigand $c in $reponses:
+		atleast($n, R($c, $questions))
+	end
+end <=> R(c, 2)
+
+;; [D]. la réponse la moins courante est A
+bigor $n in [0..8]:
+	exact($n, R(a, $questions)) and bigand $c in $reponses:
+		atleast($n, R($c, $questions))
+	end
+end <=> R(d, 2)
+
+;; question [3] :
+;; Quelle lettre est la réponse la plus courante ?
+;;-------------------------------------------------------
+
+;; [A]. la réponse la plus courante est D
+bigor $n in [0..8]:
+	exact($n, R(d, $questions)) and bigand $c in $reponses:
+		atmost($n, R($c, $questions))
+	end
+end <=> R(a, 3)
+
+;; [B]. la réponse la plus courante est C
+bigor $n in [0..8]:
+	exact($n, R(c, $questions)) and bigand $c in $reponses:
+		atmost($n, R($c, $questions))
+	end
+end <=> R(b, 3)
+
+;; [C]. la réponse la plus courante est B
+bigor $n in [0..8]:
+	exact($n, R(b, $questions)) and bigand $c in $reponses:
+		atmost($n, R($c, $questions))
+	end
+end <=> R(c, 3)
+
+;; [D]. la réponse la plus courante est A
+bigor $n in [0..8]:
+	exact($n, R(a, $questions)) and bigand $c in $reponses:
+		atmost($n, R($c, $questions))
+	end
+end <=> R(d, 3)
+
+;; question [4] :
+;; Laquelle des propositions suivantes est la seule vraie ?
+;;-------------------------------------------------------
+
+;; [A]. Il y a 4 questions avec comme réponse A.
+exact(4, R(a, $questions)) <=> R(a, 4)
+;; [B]. A est la bonne réponse à exactement une question
+exact(1, R(a, $questions)) <=> R(b, 4)
+;; [C]. B n'est jamais une bonne réponse
+exact(0, R(b, $questions)) <=> R(c, 4)
+;; [D]. Il existe une quantité égale de A parmi les réponses correctes
+bigor $n in [0..8]:
+	exact($n, R(a, $questions)) and exact($n, R(c, $questions))
+end <=> R(d, 4)
+
+
+;; question [5] :
+;; Quelle question est la première à avoir A comme réponse ?
+;;-------------------------------------------------------
+
+;; [A]. la cinquième question
+(bigand $q in $questions when $q < 5:
+	not R(a, $q)
+end and R(a, 5)) <=> R(a, 5)
+
+;; [B]. la sixième question
+(bigand $q in $questions when $q < 6:
+	not R(a, $q)
+end and R(a, 6)) <=> R(b, 5)
+
+;; [C]. la septième question
+(bigand $q in $questions when $q < 7:
+	not R(b, $q)
+end and R(b, 7)) <=> R(c, 5)
+
+;; [D]. la première question
+R(a, 1) <=> R(d, 5)
+
+
+;; question [6] :
+;; Combien y-a-t-il d'occurences de la réponse la plus courante ?
+;;-------------------------------------------------------
+
+;; [A]. 3
+R(a, 6) <=> bigor $r in $reponses:
+	bigor $n in [0..8]:
+		exact($n, R($r, $questions)) and bigand $c in $reponses:
+				atmost($n, R($c, $questions))
+			end
+	end and exact(3, R($r, $questions))
+end
+
+;; [B]. 4
+R(b, 6) <=> bigor $r in $reponses:
+	bigor $n in [0..8]:
+		exact($n, R($r, $questions)) and bigand $c in $reponses:
+			atmost($n, R($c, $questions))
+		end
+	end and exact(4, R($r, $questions))
+end
+
+;; [C]. 5
+R(c, 6) <=> bigor $r in $reponses:
+	bigor $n in [0..8]:
+		exact($n, R($r, $questions)) and bigand $c in $reponses:
+				atmost($n, R($c, $questions))
+			end
+	end and exact(5, R($r, $questions))
+end
+
+;; [D]. 6
+R(d, 6) <=> bigor $r in $reponses:
+	bigor $n in [0..8]:
+		exact($n, R($r, $questions)) and bigand $c in $reponses:
+			atmost($n, R($c, $questions))
+		end
+	end and exact(6, R($r, $questions))
+end
+
+;; question [7] :
+;; Quelles sont les deux seules questions consécutives avec la même réponse ?
+;;-------------------------------------------------------
+
+;; Il y a exactement deux questions consécutives qui ont la même réponse
+exact(1, ["R($r, $q) and R($r, $q + 1)" for $r, $q in $reponses, [1..7]])
+
+;; [A]. 2 et 3
+R(a, 7) <=> bigor $r in $reponses:
+	R($r, 2) and R($r, 3)
+end
+
+;; [B]. 7 et 8
+R(b, 7) <=> bigor $r in $reponses:
+	R($r, 7) and R($r, 8)
+end
+
+;; [C]. 1 et 2
+R(c, 7) <=> bigor $r in $reponses:
+	R($r, 1) and R($r, 2)
+end
+
+;; [D]. 4 et 5
+R(d, 7) <=> bigor $r in $reponses:
+	R($r, 4) and R($r, 5)
+end
+
+;; question [8] :
+;; Quelle autre question est la seule avec la même réponse que celle-ci ?
+;;-------------------------------------------------------
+
+;; [A]. 4
+R(a, 8) => (exact(2, R(a, $questions)) and R(a, 4))
+;; [B]. 2
+R(b, 8) => (exact(2, R(b, $questions)) and R(b, 2))
+;; [C]. 3
+R(c, 8) => (exact(2, R(c, $questions)) and R(c, 3))
+;; [D]. 7
+R(d, 8) => (exact(2, R(d, $questions)) and R(d, 7))

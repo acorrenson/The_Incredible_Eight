@@ -1,0 +1,43 @@
+\documentclass[fleqn]{article}
+\usepackage{mathtools}
+\allowdisplaybreaks
+\begin{document}
+\begin{multline*}
+\mathbf{questions} \leftarrow [1..8]\\
+\mathbf{reponses} \leftarrow [a,b,c,d]\\
+\bigwedge\limits_{\substack{\mathbf{q}\in \mathbf{questions}}}\textrm{exact}(1,R_{\mathbf{reponses},\mathbf{q}})\\
+R_{a,1} \Leftrightarrow \textrm{exact}(1,R_{d,\mathbf{questions}})\\
+R_{b,1} \Leftrightarrow \textrm{exact}(2,R_{d,\mathbf{questions}})\\
+R_{c,1} \Leftrightarrow \textrm{exact}(3,R_{d,\mathbf{questions}})\\
+R_{d,1} \Leftrightarrow \textrm{exact}(4,R_{d,\mathbf{questions}})\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{d,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atleast}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{a,2}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{b,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atleast}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{b,2}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{c,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atleast}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{c,2}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{a,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atleast}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{d,2}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{d,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{a,3}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{c,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{b,3}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{b,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{c,3}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{a,\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \Leftrightarrow R_{d,3}\\
+\textrm{exact}(4,R_{a,\mathbf{questions}}) \Leftrightarrow R_{a,4}\\
+\textrm{exact}(1,R_{a,\mathbf{questions}}) \Leftrightarrow R_{b,4}\\
+\textrm{exact}(0,R_{b,\mathbf{questions}}) \Leftrightarrow R_{c,4}\\
+\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{a,\mathbf{questions}}) \wedge \textrm{exact}(\mathbf{n},R_{c,\mathbf{questions}})\right) \Leftrightarrow R_{d,4}\\
+\left(\bigwedge\limits_{\substack{\mathbf{q}\in \mathbf{questions}\\\mathbf{q} < 5}}\neg R_{a,\mathbf{q}} \wedge R_{a,5}\right) \Leftrightarrow R_{a,5}\\
+\left(\bigwedge\limits_{\substack{\mathbf{q}\in \mathbf{questions}\\\mathbf{q} < 6}}\neg R_{a,\mathbf{q}} \wedge R_{a,6}\right) \Leftrightarrow R_{b,5}\\
+\left(\bigwedge\limits_{\substack{\mathbf{q}\in \mathbf{questions}\\\mathbf{q} < 7}}\neg R_{b,\mathbf{q}} \wedge R_{b,7}\right) \Leftrightarrow R_{c,5}\\
+R_{a,1} \Leftrightarrow R_{d,5}\\
+R_{a,6} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{\mathbf{r},\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \wedge \textrm{exact}(3,R_{\mathbf{r},\mathbf{questions}})\right)\\
+R_{b,6} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{\mathbf{r},\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \wedge \textrm{exact}(4,R_{\mathbf{r},\mathbf{questions}})\right)\\
+R_{c,6} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{\mathbf{r},\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \wedge \textrm{exact}(5,R_{\mathbf{r},\mathbf{questions}})\right)\\
+R_{d,6} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(\bigvee\limits_{\substack{\mathbf{n}\in [0..8]}}\left(\textrm{exact}(\mathbf{n},R_{\mathbf{r},\mathbf{questions}}) \wedge \bigwedge\limits_{\substack{\mathbf{c}\in \mathbf{reponses}}}\textrm{atmost}(\mathbf{n},R_{\mathbf{c},\mathbf{questions}})\right) \wedge \textrm{exact}(6,R_{\mathbf{r},\mathbf{questions}})\right)\\
+\textrm{exact}(1,[R_{\mathbf{r},\mathbf{q}} \wedge R_{\mathbf{r},\mathbf{q} + 1}~|~\mathbf{r},\mathbf{q}\in \mathbf{reponses} \times [1..7]])\\
+R_{a,7} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(R_{\mathbf{r},2} \wedge R_{\mathbf{r},3}\right)\\
+R_{b,7} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(R_{\mathbf{r},7} \wedge R_{\mathbf{r},8}\right)\\
+R_{c,7} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(R_{\mathbf{r},1} \wedge R_{\mathbf{r},2}\right)\\
+R_{d,7} \Leftrightarrow \bigvee\limits_{\substack{\mathbf{r}\in \mathbf{reponses}}}\left(R_{\mathbf{r},4} \wedge R_{\mathbf{r},5}\right)\\
+R_{a,8} \Rightarrow \left(\textrm{exact}(2,R_{a,\mathbf{questions}}) \wedge R_{a,4}\right)\\
+R_{b,8} \Rightarrow \left(\textrm{exact}(2,R_{b,\mathbf{questions}}) \wedge R_{b,2}\right)\\
+R_{c,8} \Rightarrow \left(\textrm{exact}(2,R_{c,\mathbf{questions}}) \wedge R_{c,3}\right)\\
+R_{d,8} \Rightarrow \left(\textrm{exact}(2,R_{d,\mathbf{questions}}) \wedge R_{d,7}\right)\\
+\end{multline*}
+\end{document}
